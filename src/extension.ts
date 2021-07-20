@@ -1,15 +1,14 @@
 'use strict';
 
 import * as vscode from 'vscode';
+import { spaceAfterImportStatement } from './functions';
 
 export function activate(context: vscode.ExtensionContext) {
 
-    vscode.languages.registerDocumentFormattingEditProvider({scheme: 'untitled', language: "foo-lang"}, {
+    vscode.languages.registerDocumentFormattingEditProvider({ scheme: 'untitled', language: "typescriptreact" }, {
         provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] | undefined {
-            const firstLine = document.lineAt(0);
-            if (firstLine.text !== '42') {
-                return [vscode.TextEdit.insert(firstLine.range.start, '42\n')];
-            }
+            const text = document.getText();
+            return spaceAfterImportStatement(document, text)
         }
     });
 }
