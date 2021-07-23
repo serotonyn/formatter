@@ -1,14 +1,23 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import { spaceAfterImportStatement } from './functions';
+import { addSpacesToSymbols, spaceAfterImportStatement } from './functions';
 
-export function activate(context: vscode.ExtensionContext) {
 
-    vscode.languages.registerDocumentFormattingEditProvider({ scheme: 'file', language: "typescriptreact" }, {
-        provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] | undefined {
+export async function activate(context: vscode.ExtensionContext) {
+
+    vscode.commands.registerCommand('extension.formatter', async () => {
+        const { activeTextEditor } = vscode.window;
+
+        if (activeTextEditor && activeTextEditor.document.languageId === 'typescriptreact') {
+            const { document } = activeTextEditor;
             const text = document.getText();
-            return spaceAfterImportStatement(document, text)
+            const edit = new vscode.WorkspaceEdit();
+
+            addSpacesToSymbols(document, edit)
+
+            spaceAfterImportStatement(document, text, edit)
+
         }
     });
 }

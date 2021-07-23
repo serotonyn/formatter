@@ -14,6 +14,14 @@
 		"onLanguage:typescriptreact"
 	],
 	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+            {
+                "command": "extension.formatter",
+                "title": "Format tsx"
+            }
+        ]
+	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
